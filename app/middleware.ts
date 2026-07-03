@@ -1,13 +1,30 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: () => request.cookies }
+    {
+      cookies: {
+        getAll() {
+          return parseCookieHeader(request.headers.get("cookie") ?? "");
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            response.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+          });
+        },
+      },
+    }
   );
 
   const {
@@ -15,18 +32,23 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getSession();
 
   const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
-  const isAppPage = request.nextUrl.pathname.startsWith("/(app)");
-  const isAdminPage = request.nextUrl.pathname.startsWith("/admin");
+  const isCallbackPage = request.nextUrl.pathname === "/auth/callback";
+  const isPublicPage = 
+    request.nextUrl.pathname === "/" ||
+    request.nextUrl.pathname.startsWith("/_next");
+  const isProtectedPage = 
+    !isAuthPage &&
+    !isPublicPage;
 
-  if (!session && (isAppPage || isAdminPage)) {
+  if (!session && isProtectedPage) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/auth/login";
     redirectUrl.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (session && isAuthPage) {
-    return NextResponse.redirect(new URL("/(app)/horses", request.url));
+  if (session && isAuthPage && !isCallbackPage) {
+    return NextResponse.redirect(new URL("/horses", request.url));
   }
 
   return response;
