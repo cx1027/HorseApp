@@ -59,7 +59,7 @@ export default function NotificationsPage() {
         subtitle={unreadCount > 0 ? `${unreadCount} unread` : "All read"}
       />
 
-      <div className="p-5 space-y-5">
+      <div className="p-5 space-y-4">
         {/* Filter Tabs */}
         <div className="flex gap-3">
           <button
@@ -106,7 +106,7 @@ export default function NotificationsPage() {
             </h3>
           </Card>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {filteredNotifications.map((notification) => (
               <Card
                 key={notification.id}

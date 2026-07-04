@@ -80,7 +80,7 @@ export default function HorseCommercialPage({ params }: { params: { id: string }
         </div>
 
         {/* Activity List */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {isLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <Card key={i} className="animate-pulse">

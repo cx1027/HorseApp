@@ -46,7 +46,7 @@ export default function HorseHealthPage({ params }: { params: { id: string } }) 
         backHref={`/horses/${params.id}`}
       />
 
-      <div className="p-5 space-y-4">
+      <div className="p-5 space-y-5">
         {isLoading ? (
           Array.from({ length: 3 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -67,34 +67,36 @@ export default function HorseHealthPage({ params }: { params: { id: string } }) 
             <p className="mt-2 text-sm text-text-secondary">Add your first health record</p>
           </Card>
         ) : (
-          records.map((record) => (
-            <Card key={record.id}>
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <Badge variant="primary" size="md">
-                    {typeLabels[record.type] || record.type}
-                  </Badge>
-                  <p className="mt-2 text-sm text-text-secondary">{record.date}</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-xs text-text-muted">Veterinarian</p>
-                  <p className="text-sm text-text-primary">{record.vet}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-text-muted">Findings</p>
-                  <p className="text-sm text-text-primary">{record.findings}</p>
-                </div>
-                {record.notes && (
+          <div className="space-y-4">
+            {records.map((record) => (
+              <Card key={record.id}>
+                <div className="flex items-start justify-between mb-4">
                   <div>
-                    <p className="text-xs text-text-muted">Notes</p>
-                    <p className="text-sm text-text-secondary">{record.notes}</p>
+                    <Badge variant="primary" size="md">
+                      {typeLabels[record.type] || record.type}
+                    </Badge>
+                    <p className="mt-2 text-sm text-text-secondary">{record.date}</p>
                   </div>
-                )}
-              </div>
-            </Card>
-          ))
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-xs text-text-muted">Veterinarian</p>
+                    <p className="text-sm text-text-primary">{record.vet}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-text-muted">Findings</p>
+                    <p className="text-sm text-text-primary">{record.findings}</p>
+                  </div>
+                  {record.notes && (
+                    <div>
+                      <p className="text-xs text-text-muted">Notes</p>
+                      <p className="text-sm text-text-secondary">{record.notes}</p>
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
     </div>

@@ -90,35 +90,37 @@ export default function OwnershipPage() {
             <p className="mt-2 text-sm text-text-secondary">You don&apos;t have any horse shares yet</p>
           </Card>
         ) : (
-          ownership.map((item) => (
-            <Link key={item.id} href={`/ownership/${item.horseId}`}>
-              <Card className="transition-all hover:shadow-elevated">
-                <div className="flex items-center gap-4">
-                  <Avatar size="lg" fallback={item.horseName} className="h-16 w-16 text-lg" />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-medium text-text-primary">{item.horseName}</h3>
-                      <Badge variant="primary">{item.shareClass}</Badge>
-                    </div>
-                    <p className="mt-2 text-sm text-text-secondary">
-                      {item.sharePercent}% share · Since {item.startDate}
-                    </p>
-                    <div className="mt-3 flex items-center gap-3">
-                      <span className="text-xs text-text-muted">{item.owners.length} owners</span>
-                      <div className="flex -space-x-2">
-                        {item.owners.slice(0, 3).map((owner) => (
-                          <Avatar key={owner.id} size="sm" fallback={owner.name} className="ring-2 ring-surface" />
-                        ))}
+          <div className="space-y-4">
+            {ownership.map((item) => (
+              <Link key={item.id} href={`/ownership/${item.horseId}`}>
+                <Card className="transition-all hover:shadow-elevated">
+                  <div className="flex items-center gap-4">
+                    <Avatar size="lg" fallback={item.horseName} className="h-16 w-16 text-lg" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <h3 className="font-medium text-text-primary">{item.horseName}</h3>
+                        <Badge variant="primary">{item.shareClass}</Badge>
+                      </div>
+                      <p className="mt-2 text-sm text-text-secondary">
+                        {item.sharePercent}% share · Since {item.startDate}
+                      </p>
+                      <div className="mt-3 flex items-center gap-3">
+                        <span className="text-xs text-text-muted">{item.owners.length} owners</span>
+                        <div className="flex -space-x-2">
+                          {item.owners.slice(0, 3).map((owner) => (
+                            <Avatar key={owner.id} size="sm" fallback={owner.name} className="ring-2 ring-surface" />
+                          ))}
+                        </div>
                       </div>
                     </div>
+                    <svg className="h-5 w-5 text-text-muted flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
                   </div>
-                  <svg className="h-5 w-5 text-text-muted flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </div>
-              </Card>
-            </Link>
-          ))
+                </Card>
+              </Link>
+            ))}
+          </div>
         )}
       </div>
     </div>

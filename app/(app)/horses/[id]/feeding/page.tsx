@@ -56,10 +56,11 @@ export default function HorseFeedingPage({ params }: { params: { id: string } })
           ))
         ) : (
           Object.entries(groupedLogs).map(([date, dateLogs]) => (
-            <div key={date} className="space-y-3">
+            <div key={date} className="space-y-4">
               <h3 className="text-sm font-semibold text-text-primary">
                 {date === "2026-07-03" ? "Today" : date === "2026-07-02" ? "Yesterday" : date}
               </h3>
+              <div className="space-y-3">
               {dateLogs.map((log) => (
                 <Card key={log.id}>
                   <div className="flex items-center justify-between">

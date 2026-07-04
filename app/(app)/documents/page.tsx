@@ -108,7 +108,7 @@ export default function DocumentsPage() {
             </Card>
           ))
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {filteredDocuments.map((doc) => (
               <Card key={doc.id} className="py-4">
                 <div className="flex items-center gap-4">

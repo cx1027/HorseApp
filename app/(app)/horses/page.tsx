@@ -75,28 +75,30 @@ export default function HorsesPage() {
             </Link>
           </Card>
         ) : (
-          horses.map((horse) => (
-            <Link key={horse.id} href={`/horses/${horse.id}`}>
-              <Card className="transition-all hover:shadow-elevated">
-                <div className="flex items-center gap-4">
-                  <Avatar size="lg" fallback={horse.name} className="h-16 w-16 text-lg" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-base font-medium text-text-primary truncate">{horse.name}</h3>
-                      {getStatusBadge(horse.status)}
+          <div className="space-y-4">
+            {horses.map((horse) => (
+              <Link key={horse.id} href={`/horses/${horse.id}`}>
+                <Card className="transition-all hover:shadow-elevated">
+                  <div className="flex items-center gap-4">
+                    <Avatar size="lg" fallback={horse.name} className="h-16 w-16 text-lg" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-base font-medium text-text-primary truncate">{horse.name}</h3>
+                        {getStatusBadge(horse.status)}
+                      </div>
+                      <p className="mt-2 text-sm text-text-secondary">
+                        {horse.age} years · {horse.sex} · {horse.breed}
+                      </p>
+                      <p className="mt-1 text-xs text-text-muted">Updated {horse.updated}</p>
                     </div>
-                    <p className="mt-2 text-sm text-text-secondary">
-                      {horse.age} years · {horse.sex} · {horse.breed}
-                    </p>
-                    <p className="mt-1 text-xs text-text-muted">Updated {horse.updated}</p>
+                    <svg className="h-5 w-5 text-text-muted flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
                   </div>
-                  <svg className="h-5 w-5 text-text-muted flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </div>
-              </Card>
-            </Link>
-          ))
+                </Card>
+              </Link>
+            ))}
+          </div>
         )}
       </div>
     </div>
