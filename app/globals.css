@@ -2,11 +2,193 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 :root {
-  --color-primary: #2563eb;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #0f172a;
-  --color-success: #16a34a;
-  --color-warning: #f59e0b;
-  --color-danger: #dc2626;
+  /* Background colors */
+  --color-background-primary: #F0F0F0;
+  --color-background-secondary: #FAFAFA;
+  
+  /* Surface colors */
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  
+  /* Brand colors */
+  --color-primary: #F05050;
+  --color-primary-soft: #F8C0C8;
+  --color-secondary: #B07060;
+  --color-accent: #E85D5D;
+  
+  /* Text colors */
+  --color-text-primary: #101010;
+  --color-text-secondary: #808080;
+  --color-text-muted: #A0A0A0;
+  
+  /* Border colors */
+  --color-border: #E6E6E6;
+  --color-border-subtle: #F0F0F0;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* iOS safe area for PWA */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+@layer components {
+  /* Base card */
+  .card {
+    @apply bg-surface rounded-2xl p-4 shadow-card;
+  }
+  
+  /* Button base */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-white rounded-full px-6 py-3 hover:bg-primary-600 active:bg-primary-700 shadow-button;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-surface text-text-primary rounded-full px-6 py-3 border border-border hover:bg-background-primary active:bg-background-primary;
+  }
+  
+  .btn-ghost {
+    @apply btn bg-transparent text-text-secondary hover:bg-background-primary active:bg-background-secondary;
+  }
+  
+  .btn-danger {
+    @apply btn bg-primary text-white rounded-full px-6 py-3 hover:bg-primary-600;
+  }
+  
+  /* Input base */
+  .input {
+    @apply w-full bg-surface border border-border rounded-2xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all;
+  }
+  
+  /* Page container */
+  .page {
+    @apply min-h-screen bg-background-primary pb-20;
+  }
+  
+  .page-content {
+    @apply p-4 space-y-4;
+  }
+  
+  /* Icon container */
+  .icon-wrapper {
+    @apply flex items-center justify-center rounded-2xl;
+  }
+  
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge bg-primary-soft text-primary;
+  }
+  
+  .badge-secondary {
+    @apply badge bg-secondary/10 text-secondary;
+  }
+  
+  /* Bottom nav safe area */
+  .bottom-nav {
+    padding-bottom: max(env(safe-area-inset-bottom), 16px);
+  }
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Safe area for notch devices */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Progress bar */
+.progress-bar {
+  @apply h-1 bg-border rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-primary rounded-full transition-all duration-300;
+}
+
+/* List item */
+.list-item {
+  @apply flex items-center gap-3 p-4 bg-surface rounded-2xl shadow-card;
+}
+
+/* Empty state */
+.empty-state {
+  @apply flex flex-col items-center justify-center py-12 text-center;
+}
+
+/* Overlay */
+.overlay {
+  @apply fixed inset-0 bg-black/40 z-40;
+}
+
+/* Modal */
+.modal {
+  @apply fixed bottom-0 left-0 right-0 bg-surface rounded-t-3xl p-6 z-50 max-h-[90vh] overflow-auto;
 }

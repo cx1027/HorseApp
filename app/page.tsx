@@ -2,45 +2,48 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <div className="min-h-screen bg-background-primary">
+      {/* Header */}
+      <header className="bg-surface border-b border-border">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <div>
-            <h1 className="text-xl font-bold text-slate-900">HorseApp</h1>
-            <p className="text-xs text-slate-500">Horse Ownership & Investment Management</p>
+            <h1 className="text-xl font-semibold text-text-primary">HorseApp</h1>
+            <p className="text-xs text-text-secondary">Horse Management Platform</p>
           </div>
-          <Link href="/auth/login" className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700">
-            Sign in
+          <Link href="/auth/login" className="rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-white shadow-button transition-colors hover:bg-primary-600">
+            Sign In
           </Link>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-16">
+      {/* Hero Section */}
+      <main className="mx-auto max-w-6xl px-6 py-20">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-slate-900 sm:text-5xl">
+          <h2 className="text-4xl font-medium text-text-primary sm:text-5xl">
             Professional Horse Management<br />& Investment Platform
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
+          <p className="mx-auto mt-8 max-w-2xl text-lg text-text-secondary leading-relaxed">
             HorseApp provides unified horse information management, health tracking, ownership analysis, and investment reporting for owners, investors, and professionals.
           </p>
-          <div className="mt-10 flex justify-center gap-4">
-            <Link href="/auth/login" className="rounded-lg bg-emerald-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-emerald-700">
+          <div className="mt-12 flex justify-center gap-4">
+            <Link href="/auth/login" className="rounded-full bg-primary px-8 py-3.5 text-base font-medium text-white shadow-button transition-colors hover:bg-primary-600">
               Get Started
             </Link>
-            <a href="#features" className="rounded-lg border border-slate-300 bg-white px-8 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50">
+            <a href="#features" className="rounded-full border-2 border-border bg-surface px-8 py-3.5 text-base font-medium text-text-primary transition-colors hover:bg-background-primary">
               Learn More
             </a>
           </div>
         </div>
 
-        <div id="features" className="mt-24 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Features Grid */}
+        <div id="features" className="mt-28 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               title: "Horse Profile Management",
               desc: "Centralized management of complete profiles including health, feeding, weight, races, insurance and more",
               icon: (
-                <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               ),
             },
@@ -48,17 +51,17 @@ export default function HomePage() {
               title: "Ownership Tracking",
               desc: "Clear visualization of equity structure, owner information, and revenue distribution for each horse",
               icon: (
-                <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72m8.162 0a9.094 9.094 0 013.741-.479 3 3 0 00-4.682-2.72m0 0a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m0 0a3 3 0 00-4.682-2.72m0 0a9.094 9.094 0 01-3.741-.479 3 3 0 004.682 2.72m0 0a3 3 0 004.682 2.72m0 0a3 3 0 004.681-2.72m0 0a3 3 0 004.682-2.72" />
                 </svg>
               ),
             },
             {
               title: "Investment Reports",
-              desc: "Professional investment reports including benchmark data, forecast analysis, and latest updates",
+              desc: "Professional investment reports including benchmark data, forecast analysis and latest updates",
               icon: (
-                <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                 </svg>
               ),
             },
@@ -66,17 +69,17 @@ export default function HomePage() {
               title: "Health Records",
               desc: "Track and manage vaccination, medical checkups, injuries, and other health-related information",
               icon: (
-                <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
               ),
             },
             {
               title: "Document Storage",
-              desc: "Securely store and manage certificates, insurance documents, race records, and more",
+              desc: "Securely store and manage certificates, insurance documents, race records and more",
               icon: (
-                <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                 </svg>
               ),
             },
@@ -84,33 +87,35 @@ export default function HomePage() {
               title: "Real-time Notifications",
               desc: "Receive timely alerts for horse status updates, report releases, and other important notifications",
               icon: (
-                <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                 </svg>
               ),
             },
           ].map((feature) => (
-            <div key={feature.title} className="rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50">
+            <div key={feature.title} className="rounded-3xl bg-surface p-8 shadow-card transition-shadow hover:shadow-elevated">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-soft">
                 {feature.icon}
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-slate-900">{feature.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">{feature.desc}</p>
+              <h3 className="mt-6 text-lg font-medium text-text-primary">{feature.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-text-secondary">{feature.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-24 rounded-2xl border border-slate-200/60 bg-white p-8 text-center shadow-sm">
-          <h3 className="text-xl font-semibold text-slate-900">Designed for the Horse Industry</h3>
-          <p className="mt-2 text-slate-600">
+        {/* Bottom CTA */}
+        <div className="mt-28 rounded-3xl bg-surface p-10 text-center shadow-card">
+          <h3 className="text-xl font-medium text-text-primary">Designed for the Horse Industry</h3>
+          <p className="mt-4 text-text-secondary leading-relaxed">
             Whether you are an individual owner, stable manager, or investment firm, HorseApp meets your needs
           </p>
         </div>
       </main>
 
-      <footer className="border-t border-slate-200/60 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-slate-500">
-          © 2026 HorseApp. Horse Ownership & Investment Management Platform.
+      {/* Footer */}
+      <footer className="border-t border-border bg-surface">
+        <div className="mx-auto max-w-6xl px-6 py-10 text-center text-sm text-text-muted">
+          © 2026 HorseApp. Horse Management & Investment Platform
         </div>
       </footer>
     </div>

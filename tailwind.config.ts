@@ -9,11 +9,84 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "var(--color-primary)",
-        secondary: "var(--color-secondary)",
-        success: "var(--color-success)",
-        warning: "var(--color-warning)",
-        danger: "var(--color-danger)",
+        // Light theme background colors (matching design spec)
+        background: {
+          primary: "#F0F0F0",  // Main background
+          secondary: "#FAFAFA", // Subtle variation
+        },
+        surface: {
+          DEFAULT: "#FFFFFF",  // Card/elevated surfaces
+          elevated: "#FFFFFF",
+        },
+        // Primary brand color (coral red / pink red)
+        primary: {
+          DEFAULT: "#F05050",
+          soft: "#F8C0C8",
+          50: "#FEF2F2",
+          100: "#FCE4E4",
+          200: "#F9C8C8",
+          300: "#F5ABAB",
+          400: "#F07070",
+          500: "#F05050",
+          600: "#E63D3D",
+          700: "#CC3030",
+          800: "#992424",
+          900: "#661818",
+        },
+        // Secondary warm color
+        secondary: {
+          DEFAULT: "#B07060",
+          50: "#F5EFED",
+          100: "#E8DED8",
+          200: "#D4BFB8",
+          300: "#C09A8E",
+          400: "#B07060",
+          500: "#8C5548",
+          600: "#6B3F35",
+          700: "#4A2A24",
+          800: "#2A1612",
+          900: "#150B0A",
+        },
+        // Accent (warm coral)
+        accent: {
+          DEFAULT: "#E85D5D",
+          soft: "#FADADA",
+        },
+        // Text colors
+        text: {
+          primary: "#101010",
+          secondary: "#808080",
+          muted: "#A0A0A0",
+          inverse: "#FFFFFF",
+        },
+        // Border colors
+        border: {
+          DEFAULT: "#E6E6E6",
+          subtle: "#F0F0F0",
+          emphasis: "#D0D0D0",
+        },
+      },
+      borderRadius: {
+        sm: "12px",
+        DEFAULT: "16px",
+        md: "20px",
+        lg: "24px",
+        xl: "28px",
+        "2xl": "32px",
+        "3xl": "40px",
+        full: "9999px",
+      },
+      fontFamily: {
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+      },
+      boxShadow: {
+        card: "0 2px 12px rgba(0, 0, 0, 0.06)",
+        elevated: "0 4px 20px rgba(0, 0, 0, 0.08)",
+        soft: "0 1px 4px rgba(0, 0, 0, 0.04)",
+        button: "0 2px 8px rgba(240, 80, 80, 0.25)",
+      },
+      spacing: {
+        'safe-bottom': 'env(safe-area-inset-bottom)',
       },
     },
   },
