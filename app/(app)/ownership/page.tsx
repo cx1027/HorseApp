@@ -92,7 +92,7 @@ export default function OwnershipPage() {
         ) : (
           <div className="space-y-4">
             {ownership.map((item) => (
-              <Link key={item.id} href={`/ownership/${item.horseId}`}>
+              <Link key={item.id} href={`/ownership/${item.horseId}`} className="block">
                 <Card className="transition-all hover:shadow-elevated">
                   <div className="flex items-center gap-4">
                     <Avatar size="lg" fallback={item.horseName} className="h-16 w-16 text-lg" />

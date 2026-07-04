@@ -110,7 +110,7 @@ export default function ReportsPage() {
         ) : (
           <div className="space-y-4">
             {filteredReports.map((report) => (
-              <Link key={report.id} href={`/reports/${report.id}`}>
+              <Link key={report.id} href={`/reports/${report.id}`} className="block">
                 <Card className="transition-all hover:shadow-elevated">
                   <div className="flex items-start justify-between mb-4">
                     <div>
