@@ -2,23 +2,36 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 import { PageHeader, Card, Badge, Avatar } from "@/components/ui";
-
-const mockHorses = [
-  { id: "1", name: "Golden Gallop", status: "active", age: 5, sex: "Male", breed: "Thoroughbred", updated: "2026-07-02" },
-  { id: "2", name: "Northern Light", status: "active", age: 4, sex: "Female", breed: "Arabian", updated: "2026-06-28" },
-  { id: "3", name: "Summer Breeze", status: "retired", age: 7, sex: "Male", breed: "Quarter Horse", updated: "2026-07-03" },
-];
+import type { Tables } from "@/lib/supabase/types";
 
 export default function HorsesPage() {
-  const [horses, setHorses] = useState<typeof mockHorses>([]);
+  const [horses, setHorses] = useState<Tables<"horses">[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      setHorses(mockHorses);
+    async function fetchHorses() {
+      const supabase = createClient();
+      
+      const { data, error } = await supabase
+        .from("horses")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching horses:", error);
+        setError(error.message);
+        setIsLoading(false);
+        return;
+      }
+
+      setHorses(data || []);
       setIsLoading(false);
-    }, 500);
+    }
+
+    fetchHorses();
   }, []);
 
   const getStatusBadge = (status: string) => {
@@ -89,7 +102,7 @@ export default function HorsesPage() {
                       <p className="mt-2 text-sm text-text-secondary">
                         {horse.age} years · {horse.sex} · {horse.breed}
                       </p>
-                      <p className="mt-1 text-xs text-text-muted">Updated {horse.updated}</p>
+                      <p className="mt-1 text-xs text-text-muted">Updated {horse.updated_at ? new Date(horse.updated_at).toLocaleDateString() : ""}</p>
                     </div>
                     <svg className="h-5 w-5 text-text-muted flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

@@ -269,3 +269,8 @@ export interface OwnershipWithUser extends Ownership {
 export interface InvestorReportWithHorses extends InvestorReport {
   horses?: Horse[];
 }
+
+// Tables helper type for Supabase
+export type Tables<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T]["Row"];
+export type TableInsert<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T]["Insert"];
+export type TableUpdate<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T]["Update"];

@@ -63,7 +63,7 @@ export default function OwnershipPage() {
         subtitle={`${ownership.length} horses · ${totalValue}% total share`}
       />
 
-      <div className="p-5 space-y-5">
+      <div className="p-5 space-y-4">
         {/* Summary Card */}
         <Card padding="lg" className="text-center bg-primary-soft">
           <p className="text-sm text-text-secondary">Total Ownership</p>
