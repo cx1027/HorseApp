@@ -33,9 +33,13 @@ export async function middleware(request: NextRequest) {
 
   const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
   const isCallbackPage = request.nextUrl.pathname === "/auth/callback";
+  const isRegisterPage = request.nextUrl.pathname === "/register";
+  const isAdminLoginPage = request.nextUrl.pathname === "/admin/login";
   const isPublicPage = 
     request.nextUrl.pathname === "/" ||
-    request.nextUrl.pathname.startsWith("/_next");
+    request.nextUrl.pathname.startsWith("/_next") ||
+    isRegisterPage ||
+    isAdminLoginPage;
   const isProtectedPage = 
     !isAuthPage &&
     !isPublicPage;

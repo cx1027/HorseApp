@@ -121,8 +121,16 @@ export default function LoginPage() {
         {/* Sign up link */}
         <p className="text-center text-sm text-text-secondary">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" className="font-medium text-primary hover:text-primary-600">
+          <Link href="/register" className="font-medium text-primary hover:text-primary-600">
             Sign up
+          </Link>
+        </p>
+
+        {/* Admin login link */}
+        <p className="text-center text-sm text-text-muted">
+          Are you an administrator?{" "}
+          <Link href="/admin/login" className="font-medium text-text-secondary hover:text-text-primary">
+            Admin Login
           </Link>
         </p>
       </div>

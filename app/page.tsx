@@ -26,7 +26,7 @@ export default function HomePage() {
             HorseApp provides unified horse information management, health tracking, ownership analysis, and investment reporting for owners, investors, and professionals.
           </p>
           <div className="mt-12 flex justify-center gap-4">
-            <Link href="/auth/login" className="rounded-full bg-primary px-8 py-3.5 text-base font-medium text-white shadow-button transition-colors hover:bg-primary-600">
+            <Link href="/register" className="rounded-full bg-primary px-8 py-3.5 text-base font-medium text-white shadow-button transition-colors hover:bg-primary-600">
               Get Started
             </Link>
             <a href="#features" className="rounded-full border-2 border-border bg-surface px-8 py-3.5 text-base font-medium text-text-primary transition-colors hover:bg-background-primary">
