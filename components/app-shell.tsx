@@ -90,7 +90,7 @@ const navItemsByRole: Record<UserRole, NavItem[]> = {
     { href: "/notifications", label: "Alerts", icon: AlertsIcon },
   ],
   investor: [
-    { href: "/dashboard", label: "Portfolio", icon: PortfolioIcon },
+    { href: "/dashboard", label: "Home", icon: DashboardIcon },
     { href: "/reports", label: "Reports", icon: ReportsIcon },
     { href: "/documents", label: "Documents", icon: DocumentsIcon },
     { href: "/notifications", label: "Alerts", icon: AlertsIcon },
