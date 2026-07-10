@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createBrowserClient } from "@supabase/ssr";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "true";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +30,9 @@ export default function LoginPage() {
     if (authError) {
       setError(authError.message);
       setIsLoading(false);
+    } else {
+      // Login successful - redirect to dashboard
+      window.location.href = "/dashboard";
     }
   }
 
@@ -57,6 +63,15 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-text-primary">Welcome Back</h1>
           <p className="mt-2 text-sm text-text-secondary">Sign in to your HorseApp account</p>
         </div>
+
+        {/* Registration Success Message */}
+        {justRegistered && (
+          <div className="rounded-2xl bg-green-50 border border-green-200 p-4 text-center">
+            <p className="text-sm text-green-700">
+              Account created successfully! Please sign in.
+            </p>
+          </div>
+        )}
 
         {/* Login Card */}
         <div className="rounded-3xl bg-surface p-6 shadow-card">
@@ -135,5 +150,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background-primary flex items-center justify-center"><p>Loading...</p></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

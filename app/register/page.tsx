@@ -22,7 +22,6 @@ export default function RegisterPage() {
   const [role, setRole] = useState("owner");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,8 +63,9 @@ export default function RegisterPage() {
     }
 
     if (data.user) {
-      setSuccess(true);
       await assignRole(data.user.id, role);
+      // Skip email confirmation - redirect to login directly
+      router.push("/auth/login?registered=true");
     }
   }
 
@@ -98,33 +98,6 @@ export default function RegisterPage() {
     } catch (err) {
       console.error("Error assigning role:", err);
     }
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-background-primary flex items-center justify-center p-4">
-        <div className="w-full max-w-sm space-y-8 text-center">
-          <div className="rounded-3xl bg-surface p-8 shadow-card">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-              <svg className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-            </div>
-            <h2 className="text-xl font-bold text-text-primary">Check your email</h2>
-            <p className="mt-2 text-sm text-text-secondary">
-              We sent a confirmation link to <strong>{email}</strong>.
-              Please click the link to activate your account.
-            </p>
-            <Button
-              onClick={() => router.push("/auth/login")}
-              className="mt-6 w-full"
-            >
-              Go to Sign In
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   return (

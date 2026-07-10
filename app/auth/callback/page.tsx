@@ -20,7 +20,7 @@ export default function AuthCallbackPage() {
         setError(error.message);
         return;
       }
-      router.replace("/horses");
+      router.replace("/dashboard");
     }
 
     handleCallback();

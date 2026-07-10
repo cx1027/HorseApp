@@ -52,7 +52,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (session && isAuthPage && !isCallbackPage) {
-    return NextResponse.redirect(new URL("/horses", request.url));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return response;
