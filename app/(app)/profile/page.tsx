@@ -1,117 +1,120 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useUserRole } from "@/hooks/useUserRole";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Avatar from "@/components/ui/Avatar";
-import ActivityList from "@/components/dashboard/shared/ActivityList";
+import {
+  CategoryIcon,
+  ProgressRing,
+  SectionTitle,
+  TopBar,
+  type CategoryColor,
+} from "@/components/dashboard/shared/Theme";
 
 interface Horse {
   id: string;
   name: string;
   sharePercent: number;
   status: string;
+  color: CategoryColor;
   nextRace?: string;
   updatedAt: string;
 }
 
-interface RecentActivity {
+const HorsesIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+  </svg>
+);
+
+const EditIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+  </svg>
+);
+
+const ReportIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+  </svg>
+);
+
+const DocumentIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+  </svg>
+);
+
+const BellIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+  </svg>
+);
+
+const SettingsIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+
+const DollarIcon = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+interface QuickAccessItem {
   id: string;
-  type: "report" | "health" | "feeding" | "weight" | "race" | "document";
   title: string;
-  horseName: string;
-  time: string;
+  value: string;
+  color: CategoryColor;
+  icon: ReactNode;
+  href: string;
 }
 
 export default function ProfilePage() {
   const { role, isLoading: roleLoading } = useUserRole();
   const [horses, setHorses] = useState<Horse[]>([]);
-  const [activities, setActivities] = useState<RecentActivity[]>([]);
+  const [stats, setStats] = useState({
+    horsesOwned: 0,
+    totalShare: 0,
+    monthlyEarnings: 0,
+  });
+  const [quickAccess, setQuickAccess] = useState<QuickAccessItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      setHorses([
-        { id: "1", name: "Golden Gallop", sharePercent: 25, status: "active", nextRace: "Mar 28 - Aotearoa Cup", updatedAt: "2 hours ago" },
-        { id: "3", name: "Summer Breeze", sharePercent: 10, status: "retired", updatedAt: "1 day ago" },
-        { id: "5", name: "Midnight Star", sharePercent: 15, status: "active", nextRace: "Apr 5 - Breeding Stakes", updatedAt: "3 days ago" },
-      ]);
-      setActivities([
-        { id: "1", type: "report", title: "Q2 2026 Report published", horseName: "Golden Gallop", time: "2 hours ago" },
-        { id: "2", type: "health", title: "Health check completed", horseName: "Summer Breeze", time: "1 day ago" },
-        { id: "3", type: "document", title: "Insurance certificate uploaded", horseName: "Midnight Star", time: "3 days ago" },
+      const mockHorses: Horse[] = [
+        { id: "1", name: "Golden Gallop", sharePercent: 25, status: "active", color: "yellow", nextRace: "Mar 28 - Aotearoa Cup", updatedAt: "2 hours ago" },
+        { id: "3", name: "Summer Breeze", sharePercent: 10, status: "retired", color: "teal", updatedAt: "1 day ago" },
+        { id: "5", name: "Midnight Star", sharePercent: 15, status: "active", color: "purple", nextRace: "Apr 5 - Breeding Stakes", updatedAt: "3 days ago" },
+      ];
+      setHorses(mockHorses);
+      setStats({
+        horsesOwned: mockHorses.length,
+        totalShare: mockHorses.reduce((acc, h) => acc + h.sharePercent, 0),
+        monthlyEarnings: 4250,
+      });
+      setQuickAccess([
+        { id: "1", title: "Horses", value: "3", color: "yellow", icon: <HorsesIcon />, href: "/horses" },
+        { id: "2", title: "Share", value: "50%", color: "purple", icon: <ReportIcon />, href: "/ownership" },
+        { id: "3", title: "This Month", value: "$4.2k", color: "green", icon: <DollarIcon />, href: "/reports" },
+        { id: "4", title: "Reports", value: "5", color: "teal", icon: <ReportIcon />, href: "/reports" },
       ]);
       setIsLoading(false);
     }, 400);
   }, []);
 
-  const totalShares = horses.reduce((sum, h) => sum + h.sharePercent, 0);
-  const monthlyEarnings = 4250;
-  const totalEarnings = 85550;
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "active":
-        return <Badge variant="success">Active</Badge>;
-      case "retired":
-        return <Badge variant="default">Retired</Badge>;
-      case "injured":
-        return <Badge variant="warning">Injured</Badge>;
-      default:
-        return <Badge>{status}</Badge>;
-    }
-  };
-
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case "report":
-        return (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-          </svg>
-        );
-      case "health":
-        return (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-          </svg>
-        );
-      case "feeding":
-        return (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        );
-      case "weight":
-        return (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75z" />
-          </svg>
-        );
-      case "race":
-        return (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-          </svg>
-        );
-      case "document":
-        return (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 18H5.625c-.621 0-1.125-.504-1.125-1.125V5.625c0-.621.504-1.125 1.125-1.125h12.75c.621 0 1.125.504 1.125 1.125v12.75c0 .621-.504 1.125-1.125 1.125z" />
-          </svg>
-        );
-      default:
-        return null;
-    }
-  };
-
   if (roleLoading || isLoading) {
     return (
       <div className="min-h-screen bg-background-primary pb-20">
-        <div className="p-5 space-y-5">
-          {/* Profile header skeleton */}
+        <TopBar title="Profile" />
+        <div className="px-5 pt-2 space-y-6">
           <Card className="p-5 animate-pulse">
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 rounded-full bg-background-primary" />
@@ -122,22 +125,12 @@ export default function ProfilePage() {
               </div>
             </div>
           </Card>
-          {/* Stats skeleton */}
-          <div className="grid grid-cols-3 gap-3">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="p-4 animate-pulse">
-                <div className="h-10 w-10 rounded-xl bg-background-primary mx-auto mb-2" />
-                <div className="h-6 w-12 bg-background-primary rounded mx-auto" />
-                <div className="h-3 w-16 bg-background-primary rounded mx-auto mt-1" />
-              </Card>
-            ))}
-          </div>
-          {/* Quick actions skeleton */}
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="p-3 animate-pulse text-center">
-                <div className="h-10 w-10 rounded-xl bg-background-primary mx-auto mb-2" />
-                <div className="h-3 w-12 bg-background-primary rounded mx-auto" />
+              <Card key={i} className="p-4 animate-pulse">
+                <div className="h-12 w-12 rounded-full bg-background-primary mx-auto mb-3" />
+                <div className="h-5 w-16 rounded bg-background-primary mx-auto mb-1" />
+                <div className="h-3 w-20 rounded bg-background-primary mx-auto" />
               </Card>
             ))}
           </div>
@@ -148,17 +141,23 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background-primary pb-20">
-      <div className="p-5 space-y-5">
+      <TopBar title="Profile" />
+
+      <div className="px-5 pt-2 space-y-6">
         {/* Profile header */}
         <Card className="p-5">
           <div className="flex items-center gap-4">
             <Avatar size="lg" fallback="JS" className="h-16 w-16 text-xl" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold text-text-primary truncate">John Smith</h2>
+                <h2 className="text-base font-semibold text-text-primary truncate">
+                  John Smith
+                </h2>
                 <Badge variant="success">Verified</Badge>
               </div>
-              <p className="mt-1 text-sm text-text-secondary truncate">john.smith@email.com</p>
+              <p className="mt-1 text-sm text-text-secondary truncate">
+                john.smith@email.com
+              </p>
               <div className="mt-2 flex items-center gap-2">
                 <Badge variant="primary">Owner</Badge>
                 <span className="text-xs text-text-muted">· Member since 2024</span>
@@ -166,136 +165,152 @@ export default function ProfilePage() {
             </div>
             <Link
               href="/settings"
-              className="p-2 hover:bg-background-secondary rounded-xl transition-colors"
+              className="w-10 h-10 rounded-full bg-background-primary border border-border flex items-center justify-center hover:bg-background-secondary transition-colors flex-shrink-0"
               aria-label="Edit profile"
             >
-              <svg className="w-5 h-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-              </svg>
+              <div className="w-5 h-5 text-text-secondary">{EditIcon}</div>
             </Link>
           </div>
         </Card>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-3 gap-3">
-          <Card className="p-4 text-center">
-            <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2">
-              <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </div>
-            <p className="text-xl font-bold text-text-primary">{horses.length}</p>
-            <p className="text-xs text-text-secondary">Horses</p>
-          </Card>
-          <Card className="p-4 text-center">
-            <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2">
-              <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-              </svg>
-            </div>
-            <p className="text-xl font-bold text-text-primary">{totalShares}%</p>
-            <p className="text-xs text-text-secondary">Total Shares</p>
-          </Card>
-          <Card className="p-4 text-center">
-            <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2">
-              <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <p className="text-xl font-bold text-text-primary">${(monthlyEarnings / 1000).toFixed(1)}k</p>
-            <p className="text-xs text-text-secondary">This Month</p>
-          </Card>
+        {/* Stats grid */}
+        <SectionTitle title="Portfolio" />
+        <div className="grid grid-cols-2 gap-4">
+          {quickAccess.map((item) => (
+            <Link key={item.id} href={item.href}>
+              <Card className="p-4 transition-all hover:shadow-elevated">
+                <CategoryIcon color={item.color} size="md">
+                  {item.icon}
+                </CategoryIcon>
+                <p className="mt-3 text-xl font-bold text-text-primary">{item.value}</p>
+                <p className="text-xs text-text-secondary mt-0.5">{item.title}</p>
+              </Card>
+            </Link>
+          ))}
         </div>
 
-        {/* Quick Actions */}
+        {/* Performance rings */}
+        <SectionTitle title="Performance" />
+        <Card className="p-5">
+          <div className="grid grid-cols-3 gap-2">
+            <ProgressRing
+              color="green"
+              progress={72}
+              value="72%"
+              unit="Health"
+              label="Avg"
+              size={88}
+            />
+            <ProgressRing
+              color="purple"
+              progress={85}
+              value="85%"
+              unit="Races"
+              label="Win"
+              size={88}
+            />
+            <ProgressRing
+              color="yellow"
+              progress={60}
+              value="60%"
+              unit="Goals"
+              label="Met"
+              size={88}
+            />
+          </div>
+        </Card>
+
+        {/* Quick links */}
+        <SectionTitle title="Quick Links" />
         <div className="grid grid-cols-4 gap-3">
           <Link href="/horses">
             <Card className="p-3 text-center hover:shadow-elevated transition-shadow">
-              <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2">
-                <div className="inline-flex p-1.5 rounded-lg bg-primary">
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803a7.5 7.5 0 0010.607 10.607z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-xs font-medium text-text-primary">My Horses</p>
+              <CategoryIcon color="yellow" size="md">
+                <HorsesIcon />
+              </CategoryIcon>
+              <p className="text-xs font-medium text-text-primary mt-2">Horses</p>
             </Card>
           </Link>
           <Link href="/reports">
             <Card className="p-3 text-center hover:shadow-elevated transition-shadow">
-              <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2">
-                <div className="inline-flex p-1.5 rounded-lg bg-primary">
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-xs font-medium text-text-primary">Reports</p>
+              <CategoryIcon color="teal" size="md">
+                <ReportIcon />
+              </CategoryIcon>
+              <p className="text-xs font-medium text-text-primary mt-2">Reports</p>
             </Card>
           </Link>
           <Link href="/documents">
             <Card className="p-3 text-center hover:shadow-elevated transition-shadow">
-              <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2">
-                <div className="inline-flex p-1.5 rounded-lg bg-primary">
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-xs font-medium text-text-primary">Documents</p>
+              <CategoryIcon color="purple" size="md">
+                <DocumentIcon />
+              </CategoryIcon>
+              <p className="text-xs font-medium text-text-primary mt-2">Documents</p>
             </Card>
           </Link>
           <Link href="/notifications">
             <Card className="p-3 text-center hover:shadow-elevated transition-shadow">
-              <div className="inline-flex p-2 rounded-xl bg-primary-soft mb-2 relative">
-                <div className="inline-flex p-1.5 rounded-lg bg-primary">
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                  </svg>
-                </div>
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-xs rounded-full flex items-center justify-center">3</span>
+              <div className="relative inline-block">
+                <CategoryIcon color="pink" size="md">
+                  <BellIcon />
+                </CategoryIcon>
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-xs rounded-full flex items-center justify-center">
+                  3
+                </span>
               </div>
-              <p className="text-xs font-medium text-text-primary">Alerts</p>
+              <p className="text-xs font-medium text-text-primary mt-2">Alerts</p>
             </Card>
           </Link>
         </div>
 
-        {/* Recent Activity */}
-        <Card className="p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-medium text-text-primary">Recent Activity</h3>
-            <Link href="/reports" className="text-sm text-primary hover:text-primary-600 font-medium">
-              View All
-            </Link>
+        {/* Achievement callout */}
+        <SectionTitle title="Achievement" />
+        <Card className="p-5 bg-[#DDF2D6] border-0">
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0 w-20 h-20 rounded-full bg-[#A8DC95] flex items-center justify-center">
+              <div className="w-12 h-12 text-[#2C8A38]">
+                {DollarIcon}
+              </div>
+            </div>
+            <div className="flex-1">
+              <p className="text-xs uppercase tracking-wide font-semibold text-[#1A6423]">
+                This Month's Earnings
+              </p>
+              <p className="mt-1 text-base font-semibold text-[#0A3411]">
+                $4,250 earned
+              </p>
+              <p className="mt-0.5 text-xs text-[#26702E]">
+                Up 12% from last month
+              </p>
+            </div>
           </div>
-          <ActivityList
-            activities={activities.map((a) => ({
-              id: a.id,
-              icon: getActivityIcon(a.type),
-              description: `${a.title} (${a.horseName})`,
-              time: a.time,
-            }))}
-            emptyMessage="No recent activity"
-          />
         </Card>
 
         {/* My Horses */}
+        <SectionTitle
+          title="My Horses"
+          action={
+            <Link href="/horses" className="text-xs font-medium text-primary">
+              View All
+            </Link>
+          }
+        />
         <div className="space-y-3">
-          <h3 className="font-medium text-text-primary px-1">My Horses</h3>
           {horses.map((horse) => (
             <Link key={horse.id} href={`/horses/${horse.id}`}>
               <Card className="p-4 transition-all hover:shadow-elevated">
                 <div className="flex items-center gap-4">
-                  <Avatar size="lg" fallback={horse.name} className="h-12 w-12 text-base" />
+                  <CategoryIcon color={horse.color} size="md">
+                    <HorsesIcon />
+                  </CategoryIcon>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <h4 className="font-medium text-text-primary truncate">{horse.name}</h4>
-                      {getStatusBadge(horse.status)}
+                      <Badge variant="success">Active</Badge>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="primary">{horse.sharePercent}%</Badge>
                       <span className="text-xs text-text-muted truncate">
-                        {horse.nextRace ? `Next: ${horse.nextRace}` : `Updated ${horse.updatedAt}`}
+                        {horse.nextRace || `Updated ${horse.updatedAt}`}
                       </span>
                     </div>
                   </div>

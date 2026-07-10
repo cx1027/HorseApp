@@ -103,8 +103,8 @@ const navItemsByRole: Record<UserRole, NavItem[]> = {
     { href: "/profile", label: "Profile", icon: ProfileIcon },
   ],
   null: [
+    { href: "/dashboard", label: "Home", icon: DashboardIcon },
     { href: "/horses", label: "Horses", icon: HorsesIcon },
-    { href: "/ownership", label: "Ownership", icon: OwnershipIcon },
     { href: "/reports", label: "Reports", icon: ReportsIcon },
     { href: "/documents", label: "Documents", icon: DocumentsIcon },
     { href: "/notifications", label: "Alerts", icon: AlertsIcon },

@@ -108,19 +108,12 @@ export function UserRoleProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Check cache first
+    // Always refresh role on mount to pick up new logins / role changes.
+    // Cache is only used to avoid an extra round-trip while the fresh fetch runs.
     const cached = getCachedRole();
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    if (cached) {
       setRole(cached.role);
-      setIsLoading(false);
-      
-      // Refresh in background if cache is older than 1 minute
-      if (Date.now() - cached.timestamp > 60 * 1000) {
-        refresh();
-      }
-      return;
     }
-
     refresh();
   }, []);
 
